@@ -58,10 +58,12 @@ class Item {
         $this->connection->close();
         return $result;
     }
-    
+     cl
     public function functionName($param) {
         
     }
+    
+    // git remote add base mójlink
     
 
 }
