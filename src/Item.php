@@ -1,12 +1,19 @@
 <?php
 
-class Item extends Connect_db {
+class Item {
     private $id;
     private $price;
     private $description;
     private $availability;
     private $name;
+    private $connection;
     // w bazie id, name, price, description, availability
+    
+    public function __construct(Connect_db $conn) {
+        $this->connection=$conn;
+        
+    }
+    
     
     function getId() {
         return $this->id;
@@ -44,9 +51,12 @@ class Item extends Connect_db {
         $this->name = $name;
     }
 
-    private function loadDataFromDb() {
-        $this->connect();
+    public function loadDataFromDb() {
+        $this->connection->connection();
+
         
+        $this->connection->close();
+        return $result;
     }
     
     public function functionName($param) {

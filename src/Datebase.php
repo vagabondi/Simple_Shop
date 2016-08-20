@@ -6,6 +6,7 @@ class Connect_db extends mysqli {
     private $dbuser;
     private $dbpass;
     private $datebase;
+    private $connection;
     
     public function __construct($dbhost, $dbuser, $dbpass, $datebase) {
         $this->dbhost = $dbhost;
@@ -15,18 +16,18 @@ class Connect_db extends mysqli {
     }
     
     public function connect() {
-        $conn = new mysqli($this->dbhost, $this->dbuser, $this->dbpass, $this->datebase);
-        $conn->set_charset("utf8");
+        $this->connection = new mysqli($this->dbhost, $this->dbuser, $this->dbpass, $this->datebase);
+        $this->connection->set_charset("utf8");
         
-        if ($conn->connect_error) {
+        if ($this->connection->connect_error) {
             die("Polaczenie nieudane. Blad: " . $conn->connect_error);
         } else {
-            return $conn;
+            return $this->connection;
         }
     } 
     
     public function close() {
-        $this->connect()->close();
+        $this->connection->close();
     }
     
 }
