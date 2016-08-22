@@ -1,9 +1,18 @@
 <?php
 require_once 'config.php';
-require_once 'src/Datebase.php';
-require_once 'src/Item.php';
+
+require_once (__DIR__. '../../src/Item.php');
 
 
 
-$dbConn=new Connect_db($dbhost, $dbuser, $dbpass, $datebase);
+$dbConn=new mysqli($dbhost, $dbuser, $dbpass, $datebase);
+$dbConn->set_charset("utf8");
+if ($dbConn->connect_error) {
+    die("Polaczenie nieudane. Blad: " . $conn->connect_error);
+}
+
 $item= new Item($dbConn);
+
+
+
+

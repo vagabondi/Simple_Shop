@@ -1,22 +1,25 @@
 <?php
 
-class Connect_db extends mysqli {
+class Con extends mysqli {
     
     private $dbhost;
     private $dbuser;
     private $dbpass;
     private $datebase;
-    private $port=NULL;
-    private $socket=NULL;
+    private $port;
+    private $socket;
     private $connection;
     
-    public function connect($dbhost, $dbuser, $dbpass, $datebase, $port, $socket) {
+    public function __construct($dbhost, $dbuser, $dbpass, $datebase, $port=NULL, $socket=NULL) {
         $this->dbhost = $dbhost;
         $this->dbuser = $dbuser;
         $this->dbpass = $dbpass;
         $this->datebase = $datebase;
         $this->port = $port;
         $this->socket = $socket;
+    }
+    
+    public function connectToDB() {
         // tworzenie połączenia //
         $this->connection = new mysqli($this->dbhost, $this->dbuser, $this->dbpass, $this->datebase, $this->port, $this->socket);
         $this->connection->set_charset("utf8");

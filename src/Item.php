@@ -7,14 +7,17 @@ class Item {
     private $availability;
     private $name;
     private $connection;
-    // w bazie id, name, price, description, availability
+    private $img;
     
-    public function __construct(Connect_db $conn) {
+    public function __construct(mysqli $conn) {
         $this->connection=$conn;
         
     }
     
-    
+    function getImg() {
+        return $this->img;
+    }
+
     function getId() {
         return $this->id;
     }
@@ -34,9 +37,17 @@ class Item {
     function getName() {
         return $this->name;
     }
+    
+    function setImg($img) {
+        $this->img = $img;
+    }
 
     function setPrice($price) {
-        $this->price = $price;
+        if ($price>0) {
+            $this->price = $price;
+        } else {
+            return false;
+        }
     }
 
     function setDescription($description) {
@@ -50,21 +61,71 @@ class Item {
     function setName($name) {
         $this->name = $name;
     }
-
+    
+    /**
+     * $sql="SELECT ..." / "INSERT..." / "UPDATE..."
+     * @param type $sql - STRING
+     * @return result
+     */
     public function loadDataFromDb() {
-        $this->connection->connection();
+        
+    }
+    
+    public function sellItem($quantity) {
+        $this->availability-=$quantity;
+    }
+    
+    public function buyItem($quantity) {
+        $this->availability-=$quantity;
+    }
+    
+    public function showAllItemsInCart() {
+        $sql="SELECT*FROM `Items`;";
+        $conn=$this->connection;
+        $result=mysqli_query($conn, $sql);
+        if ($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+        
+                echo $row['itemName'] . "<br>" . $row['description'] . "<br>";
+            }
+        }
+        
+    }
+    
+    public function addItem($name, $description, $price, $availability) {
+        $this->setName($name);
+        $this->setDescription($description);
+        $this->setPrice($price);        
+        $this->setAvailability($availability);
+        $sql="INSERT INTO Items(itemName, description, price, availability) "
+                . "VALUES ('$this->name', '$this->description', '$this->price', '$this->availability')";
+        $conn=$this->connection;
+        $conn->query($sql);
 
-        
-        $this->connection->close();
-        return $result;
     }
-     cl
-    public function functionName($param) {
-        
-    }
+
+    
     
     // git remote add base mójlink
+    // git pull base master
+    //add
+    //commit
+    //git push origin master
     
+    //symfony new coderslab 2.7
+    
+}   //ssh vagrant@192.168.33.22
+//  hasło: vagrant
+//   
+    //cd /var/www/html ...
+    //w folderze polecenie symfony new coderslab 2.7
+//php app/console server:run 0.0.0.0:8000
+// i póżniej wchodzimy 192.168.33.22:8000
 
-}
-
+//
+//    $name='wycasasfasfasfasf';
+//    $description='dobrze wyciera';
+//    $price=1;
+//    $availability=4;
+//
+//    $item->addItem($name, $description, $price, $availability);

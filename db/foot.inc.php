@@ -1,3 +1,1 @@
-<?php
-
-$conn->close();
+// jednak nie potrzebny
