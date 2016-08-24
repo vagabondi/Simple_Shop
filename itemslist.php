@@ -1,2 +1,2 @@
-<p><?php $item->showAllItemsInCart() ?></p>
+<?php $item->showAll()?>
 

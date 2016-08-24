@@ -1,5 +1,6 @@
 <?php
 
+
 class Item {
     private $id;
     private $price;
@@ -35,6 +36,7 @@ class Item {
     }
 
     function getName() {
+
         return $this->name;
     }
     
@@ -61,12 +63,7 @@ class Item {
     function setName($name) {
         $this->name = $name;
     }
-    
-    /**
-     * $sql="SELECT ..." / "INSERT..." / "UPDATE..."
-     * @param type $sql - STRING
-     * @return result
-     */
+
     public function loadDataFromDb() {
         
     }
@@ -78,18 +75,16 @@ class Item {
     public function buyItem($quantity) {
         $this->availability-=$quantity;
     }
-    
-    public function showAllItemsInCart() {
-        $sql="SELECT*FROM `Items`;";
+
+    public function showAll() {
+        $sql="SELECT*FROM Items LEFT JOIN itemsPictures ON Items.id=itemsPictures.Items_id";
         $conn=$this->connection;
         $result=mysqli_query($conn, $sql);
         if ($result->num_rows > 0){
-            while($row = $result->fetch_assoc()){
-        
-                echo $row['itemName'] . "<br>" . $row['description'] . "<br>";
+            while($row = $result->fetch_assoc()) {
+                include (__DIR__ . '../../items_show.php');
             }
         }
-        
     }
     
     public function addItem($name, $description, $price, $availability) {
@@ -101,10 +96,36 @@ class Item {
                 . "VALUES ('$this->name', '$this->description', '$this->price', '$this->availability')";
         $conn=$this->connection;
         $conn->query($sql);
+    }
+
+    public function addImg($img, $name) {
+        $this->setImg($img);
+        $this->setName($name);
+        $sql="INSERT INTO itemsPictures(url, Items_id) VALUES ('$this->img', '$this->name')";
+        $conn=$this->connection;
+        $conn->query($sql);
+    }
+
+    public function deleteItem($name) {
+        $this->setName($name);
+        $sql="DELETE FROM Item WHERE itemName='$this->name'";
+        $conn=$this->connection;
+        $result=$conn->query($sql);
+        if($result!=FALSE) {
+            echo "Przedmiot został usunięty";
+        } else {
+            echo "Blad podczas usuwania kina.<br>" . $conn->error;
+        }
+    }
+
+    public function updateItem($name, $description, $price, $availability) {
+        $this->setName($name);
+        $this->setAvailability($availability);
+        $this->setDescription($description);
+        $this->setPrice($price);
 
     }
 
-    
     
     // git remote add base mójlink
     // git pull base master
@@ -119,7 +140,7 @@ class Item {
 //   
     //cd /var/www/html ...
     //w folderze polecenie symfony new coderslab 2.7
-//php app/console server:run 0.0.0.0:8000
+    //php app/console server:run 0.0.0.0:8000
 // i póżniej wchodzimy 192.168.33.22:8000
 
 //
@@ -129,3 +150,5 @@ class Item {
 //    $availability=4;
 //
 //    $item->addItem($name, $description, $price, $availability);
+
+

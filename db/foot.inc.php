@@ -1,1 +1,2 @@
-// jednak nie potrzebny
+<?php
+$dbConn->close();

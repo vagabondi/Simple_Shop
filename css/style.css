@@ -1,7 +1,7 @@
 .container {
     overflow: auto; 
-    height: 700px;
-    width: 100%;
+
+    width: 90%;
     background-size: cover;
     background: white;
 }
@@ -54,3 +54,16 @@ ul a:hover {
 }
 
 
+.item_in_list {
+	list-style: none;
+	border: 1px solid gainsboro;
+	max-width: 300px;
+	margin: 5px auto;
+}
+
+.item_in_list img {
+	max-width: 200px;
+	max-height: 200px;
+	display: block;
+	margin: 0 auto;
+}
